@@ -1,0 +1,5 @@
+{
+  "name": "Courier Rate & Volume Calculator",
+  "description": "A simple tool to calculate the cubic meter volume of a package and estimate shipping costs based on base rate, surcharges, and additional fees.",
+  "requestFramePermissions": []
+}

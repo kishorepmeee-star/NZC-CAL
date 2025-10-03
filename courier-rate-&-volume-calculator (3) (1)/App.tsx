@@ -1,6 +1,7 @@
 import React from 'react';
 import VolumeCalculator from './components/VolumeCalculator';
 import RateCalculator from './components/RateCalculator';
+import SpendCalculator from './components/SpendCalculator';
 
 const App: React.FC = () => {
   return (
@@ -19,7 +20,10 @@ const App: React.FC = () => {
 
         <main className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           <VolumeCalculator />
-          <RateCalculator />
+          <div className="flex flex-col gap-8 lg:gap-12">
+            <RateCalculator />
+            <SpendCalculator />
+          </div>
         </main>
 
         <footer className="text-center mt-16 pt-8 border-t border-slate-200">

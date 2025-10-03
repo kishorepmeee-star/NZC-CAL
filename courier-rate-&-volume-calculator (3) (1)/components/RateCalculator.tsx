@@ -15,7 +15,6 @@ const RateCalculator: React.FC = () => {
     baseRate: '',
     surcharge: '',
     additional: '',
-    itemsSent: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,17 +35,8 @@ const RateCalculator: React.FC = () => {
     return base + surchargeAmount + add;
   }, [costs]);
 
-  const annualSpend = useMemo(() => {
-    const items = parseFloat(costs.itemsSent) || 0;
-    if (items <= 0) {
-        return 0;
-    }
-    // Formula: (items sent * 50 weeks * 7.5)
-    return items * 50 * 7.5;
-  }, [costs.itemsSent]);
-
   return (
-    <CalculatorCard title="Rate & Spend Calculator" icon={<DollarSignIcon />}>
+    <CalculatorCard title="Rate Calculator" icon={<DollarSignIcon />}>
       <div className="space-y-4">
         <Input
           label="Base Rate"
@@ -69,31 +59,15 @@ const RateCalculator: React.FC = () => {
           onChange={handleInputChange}
           unit="$"
         />
-         <Input
-          label="Items Sent per Week"
-          id="itemsSent"
-          value={costs.itemsSent}
-          onChange={handleInputChange}
-          unit="items"
-        />
       </div>
 
-      <div className="mt-8 pt-6 border-t border-slate-200">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <p className="text-sm text-slate-600">Total Cost per Item</p>
-            <p className="text-4xl font-extrabold text-brandRed tracking-tight">
+      <div className="mt-8">
+        <div className="bg-gray-100/70 rounded-xl p-6 text-center">
+            <p className="text-sm font-medium text-slate-600">Total Cost per Item</p>
+            <p className="text-4xl font-extrabold text-brandRed tracking-tight mt-1">
               <span className="text-2xl font-medium align-top text-slate-500">$</span>
               {totalCost.toFixed(2)}
             </p>
-          </div>
-          <div>
-            <p className="text-sm text-slate-600">Estimated Annual Spend</p>
-            <p className="text-4xl font-extrabold text-slate-800 tracking-tight">
-              <span className="text-2xl font-medium align-top text-slate-500">$</span>
-              {annualSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </p>
-          </div>
         </div>
       </div>
     </CalculatorCard>

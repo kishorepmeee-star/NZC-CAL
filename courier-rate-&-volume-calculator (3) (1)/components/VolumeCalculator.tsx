@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import CalculatorCard from './CalculatorCard';
 import Input from './Input';
+import CubePreview from './CubePreview';
 
 const CubeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
@@ -21,18 +22,22 @@ const VolumeCalculator: React.FC = () => {
     setDimensions(prev => ({ ...prev, [name]: value }));
   };
 
-  const cubicMeters = useMemo(() => {
-    const lengthNum = parseFloat(dimensions.length) || 0;
-    const widthNum = parseFloat(dimensions.width) || 0;
-    const heightNum = parseFloat(dimensions.height) || 0;
+  const parsedDimensions = useMemo(() => ({
+    length: parseFloat(dimensions.length) || 0,
+    width: parseFloat(dimensions.width) || 0,
+    height: parseFloat(dimensions.height) || 0,
+  }), [dimensions]);
 
-    if (lengthNum <= 0 || widthNum <= 0 || heightNum <= 0) {
+  const cubicMeters = useMemo(() => {
+    const { length, width, height } = parsedDimensions;
+
+    if (length <= 0 || width <= 0 || height <= 0) {
       return 0;
     }
     
     const divisor = unit === 'cm' ? 1_000_000 : 1_000_000_000;
-    return (lengthNum * widthNum * heightNum) / divisor;
-  }, [dimensions, unit]);
+    return (length * width * height) / divisor;
+  }, [parsedDimensions, unit]);
 
   return (
     <CalculatorCard title="Volume Calculator" icon={<CubeIcon />}>
@@ -95,6 +100,17 @@ const VolumeCalculator: React.FC = () => {
             {cubicMeters.toFixed(4)}{' '}
             <span className="text-2xl font-medium text-slate-500">m³</span>
           </p>
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold text-slate-800 mb-2 text-center">3D Package Preview</h3>
+        <div className="w-full">
+            <CubePreview 
+              length={parsedDimensions.length} 
+              width={parsedDimensions.width} 
+              height={parsedDimensions.height} 
+            />
         </div>
       </div>
     </CalculatorCard>

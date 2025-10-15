@@ -9,6 +9,12 @@ const DollarSignIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
+const ClearIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+);
+
 
 const RateCalculator: React.FC = () => {
   const [costs, setCosts] = useState({
@@ -20,6 +26,14 @@ const RateCalculator: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCosts(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleClear = () => {
+    setCosts({
+      baseRate: '',
+      surcharge: '',
+      additional: '',
+    });
   };
 
   const totalCost = useMemo(() => {
@@ -37,6 +51,17 @@ const RateCalculator: React.FC = () => {
 
   return (
     <CalculatorCard title="Rate Calculator" icon={<DollarSignIcon />}>
+      <div className="h-6 flex justify-end mb-2">
+        <button
+          type="button"
+          onClick={handleClear}
+          aria-label="Clear rate fields"
+          className="flex items-center text-sm font-medium text-slate-500 hover:text-brandRed transition-colors"
+        >
+          <ClearIcon />
+          <span>Clear</span>
+        </button>
+      </div>
       <div className="space-y-4">
         <Input
           label="Base Rate"
